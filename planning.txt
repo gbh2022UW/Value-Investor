@@ -1,0 +1,42 @@
+First Iteration Goals:
+1. Functional GUI that allows you to initialize information from a ticker, access saved tickers
+2. Allow user to set portfolios full of tickers
+3. Sort by sectors / competitors
+4. Good visualization on pros/cons of each competitor, easily comparable
+
+Executable Function:
+1. Check if save directory exists, if not create one
+2. Load all information, if any, from save directory into memory
+3. Start welcome screen
+
+Welcome Screen: Contains buttons to all other screens
+
+My Stocks Screen:
+1. Loaded upon initialize of a portfolio from the welcome screen
+2. Shows all current stocks and their three main percentages, as well as the defining data used to calculate said percentages
+3. Shows any saved competitors three mains as well, with differences between them
+4. Options to add new stocks to portfolio, as well as add new competitors
+
+Stock Research Screen:
+1. Loaded from no saved session, or loaded from session
+2. Initialize a search with a ticker
+3. Show three main percentages as well as the defining data
+4. Initialize the information into a symbol, which goes into the current session
+5. Enable adding a symbol into a portfolio, deleting a symbol
+6. Enable saving a session full of symbols
+7. Run comparisons between symbols
+
+Class Structure:
+All information pertaining to a stock should be saved in the Symbol class
+The Session class needs to contain a list of symbols used in a session
+The Portfolio class needs to contain a list of Stocks and Competitors
+This is all the important information to store in file saving
+
+
+Design structure:
+1. Design class structure
+2. Design file structure
+3. Design welcome screen GUI
+4. Design stock research screen GUI
+5. Design my stocks GUI
+
