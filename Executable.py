@@ -50,13 +50,12 @@ for symbol_name in symbol_names:
 for portfolio_name in portfolio_names:
     portfolio_path = os.path.join(portfolio_save_path, portfolio_name)
     
-    stock_save_path = os.path.join(portfolio_path, "Stocks")
-    stock_names = os.listdir(stock_save_path)
+    stock_names = os.listdir(portfolio_path)
 
     portfolio = Portfolio.Portfolio(portfolio_name)
 
     for stock_name in stock_names:
-        stock_path = os.path.join(stock_save_path, stock_name)
+        stock_path = os.path.join(portfolio_path, stock_name)
         data_path = os.path.join(stock_path, "data.csv")
         data_csv = open(data_path, "r")
         data_reader = csv.DictReader(data_csv)
@@ -81,6 +80,13 @@ for session_name in session_names:
     
     session = Session.Session(session_name, symbols)
     DM.sessions[session_name] = session
+
+for session in DM.sessions.values():
+    if "New Session" in session.name:
+        DM.new_session_count += 1
+for portfolio in DM.portfolios.values():
+    if "New Portfolio" in portfolio.name:
+        DM.new_portfolio_count += 1
 
 welcome_window = GUI.WelcomeWindow(GUI.WelcomeTemplate())
 welcome_window.Activate()
