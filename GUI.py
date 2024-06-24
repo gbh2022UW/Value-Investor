@@ -3,6 +3,7 @@ sg.theme("DarkPurple5")
 import DataManager as DM
 import Session
 import Portfolio
+import Symbol
 
 '''
 class GUI:
@@ -51,7 +52,7 @@ def StockResearchTemplate(session_name):
     layout = [
         [sg.Text(session_name, font = ("Times New Roman", 24))],
         [sg.Button("Home", key = "??HOME??")],
-        [sg.Button("My Portfolios", key = "??MY PORTFOLIOS??")],
+        [sg.Button("Add Symbol", key = "??ADD SYMBOL??"), sg.Input(key = "??ADD SYMBOL NAME??")],
         [sg.Button("Quit", key = "??QUIT??")]
         
     ]
@@ -108,7 +109,7 @@ class WelcomeWindow(Window):
 
     def WelcomeEvents(self, event, values):
         if event == "??LOAD SESSION??":
-            self.next_window = StockResearchWindow(StockResearchTemplate(values["??LOAD SESSION NAME??"]))
+            self.next_window = StockResearchWindow(StockResearchTemplate(values["??LOAD SESSION NAME??"]), values["??LOAD SESSION NAME??"])
             self.close = True
         if event == "??NEW SESSION??":
             new_session_name = values["??NEW SESSION NAME??"]
@@ -118,7 +119,7 @@ class WelcomeWindow(Window):
                 else:
                     new_session_name = "New Session " + str(DM.new_session_count)
             DM.sessions[new_session_name] = Session.Session(new_session_name)
-            self.next_window = StockResearchWindow(StockResearchTemplate(new_session_name))
+            self.next_window = StockResearchWindow(StockResearchTemplate(new_session_name), new_session_name)
             self.close = True
         if event == "??LOAD PORTFOLIO??":
             self.next_window = MyPortfoliosWindow(MyPortfoliosTemplate(values["??LOAD PORTFOLIO NAME??"]))
@@ -137,8 +138,9 @@ class WelcomeWindow(Window):
     
 
 class StockResearchWindow(Window):
-    def __init__(self, window):
+    def __init__(self, window, session_name):
         self.window = window
+        self.session_name = session_name
         self.eventFunctions = [self.StockResearchEvents]
 
     def StockResearchEvents(self, event, values):
@@ -146,10 +148,10 @@ class StockResearchWindow(Window):
             print("Home")
             self.next_window = WelcomeWindow(WelcomeTemplate())
             self.close = True
-        if event == "??MY PORTFOLIOS??":
-            print("My Portfolios")
-            self.next_window = MyPortfoliosWindow(MyPortfoliosTemplate())
-            self.close = True
+        if event == "??ADD SYMBOL??":
+                new_symbol = Symbol.Symbol(values["??ADD SYMBOL NAME??"])
+                DM.sessions[self.session_name].symbols[values["??ADD SYMBOL NAME??"]] = new_symbol
+            
 
 
 class MyPortfoliosWindow(Window):
