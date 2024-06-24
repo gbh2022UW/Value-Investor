@@ -8,6 +8,7 @@ Executable Function:
 1. Check if save directory exists, if not create one
 2. Load all information, if any, from save directory into memory
 3. Start welcome screen
+4. On exit of GUI loop, save all information to disk
 
 Welcome Screen: Contains buttons to all other screens
 
@@ -40,3 +41,8 @@ Design structure:
 4. Design stock research screen GUI
 5. Design my stocks GUI
 
+GUI Implementation Strategy:
+1. Put all window templates into DataManager
+2. Create functions to refresh all windows based off current memory data
+3. Use Window class and inheritance to define functionality of each GUI screen in terms of integration with backend
+4. Responsiblity of each window to be able to open a new one

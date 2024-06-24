@@ -6,7 +6,7 @@ import Symbol
 import Stock
 import Portfolio
 import Session
-import PySimpleGUI as sg
+import GUI
 
 username = getpass.getuser()
 
@@ -82,5 +82,7 @@ for session_name in session_names:
     session = Session.Session(session_name, symbols)
     DM.sessions[session_name] = session
 
+welcome_window = GUI.WelcomeWindow(GUI.WelcomeTemplate())
+welcome_window.Activate()
 
 
