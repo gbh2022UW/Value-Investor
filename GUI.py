@@ -50,10 +50,16 @@ def WelcomeTemplate():
     return window
 
 def StockResearchTemplate(session_name):
+    headings = ["Return on Enterprise Value", "Three Year Change in Revenue", "EBIT Margin"]
+    treedata = sg.TreeData()
+    for symbol in DM.sessions[session_name].symbols.values():
+        treedata.Insert("", "??" + symbol.ticker_name + "??", symbol.ticker_name, 
+                        [round(float(symbol.data["Return Enterprise Value"]), 2), round(float(symbol.data["Revenue Change"]), 2), round(float(symbol.data["EBIT Margin"]), 2)])
     layout = [
         [sg.Text(session_name, font = ("Times New Roman", 24))],
         [sg.Button("Home", key = "??HOME??")],
-        [sg.Button("Add Symbol", key = "??ADD SYMBOL??"), sg.Input(key = "??ADD SYMBOL NAME??")],
+        [sg.Button("Add Symbol", key = "??ADD SYMBOL??"), sg.Input(key = "??ADD SYMBOL NAME??"), sg.Button("Refresh", key = "??REFRESH??")],
+        [sg.Tree(treedata, headings = headings)],
         [sg.Button("Quit", key = "??QUIT??")]
         
     ]
@@ -150,7 +156,6 @@ class StockResearchWindow(Window):
 
     def StockResearchEvents(self, event, values):
         if event == "??HOME??":
-            print("Home")
             self.next_window = WelcomeWindow(WelcomeTemplate())
             self.close = True
         if event == "??ADD SYMBOL??":
@@ -161,6 +166,9 @@ class StockResearchWindow(Window):
             else:
                 new_symbol = DM.symbols[new_symbol_name]
             DM.sessions[self.session_name].symbols[new_symbol_name] = new_symbol
+        if event == "??REFRESH??":
+            self.next_window = StockResearchWindow(StockResearchTemplate(self.session_name), self.session_name)
+            self.close = True
             
 
 
@@ -181,6 +189,5 @@ class MyPortfoliosWindow(Window):
                 DM.symbols[new_competitor_name] = Symbol.Symbol(new_competitor_name)
             DM.portfolios[self.portfolio_name].stocks[load_stock_name].competitors[new_competitor_name] = DM.symbols[new_competitor_name]
         if event == "??HOME??":
-            print("Home")
             self.next_window = WelcomeWindow(WelcomeTemplate())
             self.close = True
