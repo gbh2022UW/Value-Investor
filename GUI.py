@@ -53,13 +53,18 @@ def StockResearchTemplate(session_name):
     headings = ["Return on Enterprise Value", "Three Year Change in Revenue", "EBIT Margin"]
     treedata = sg.TreeData()
     for symbol in DM.sessions[session_name].symbols.values():
-        treedata.Insert("", "??" + symbol.ticker_name + "??", symbol.ticker_name, 
+        key = "??" + symbol.ticker_name + "??"
+        treedata.Insert("", key, symbol.ticker_name, 
                         [round(float(symbol.data["Return Enterprise Value"]), 2), round(float(symbol.data["Revenue Change"]), 2), round(float(symbol.data["EBIT Margin"]), 2)])
+    symbols = []
+    for symbol in DM.sessions[session_name].symbols:
+        symbols.append(symbol)
     layout = [
         [sg.Text(session_name, font = ("Times New Roman", 24))],
         [sg.Button("Home", key = "??HOME??")],
         [sg.Button("Add Symbol", key = "??ADD SYMBOL??"), sg.Input(key = "??ADD SYMBOL NAME??"), sg.Button("Refresh", key = "??REFRESH??")],
-        [sg.Tree(treedata, headings = headings)],
+        [sg.Tree(treedata, headings = headings, enable_events = True, change_submits = True, key  = "??TREE??")],
+        [sg.Button("Delete Symbol", key = "??DELETE SYMBOL??"), sg.Combo(symbols, key = "??DELETE SYMBOL NAME??")],
         [sg.Button("Quit", key = "??QUIT??")]
         
     ]
@@ -169,6 +174,10 @@ class StockResearchWindow(Window):
         if event == "??REFRESH??":
             self.next_window = StockResearchWindow(StockResearchTemplate(self.session_name), self.session_name)
             self.close = True
+        if event == "??DELETE SYMBOL??":
+            delete_symbol = values["??DELETE SYMBOL NAME??"]
+            if delete_symbol in DM.sessions[self.session_name].symbols:
+                DM.sessions[self.session_name].symbols.pop(delete_symbol)
             
 
 
