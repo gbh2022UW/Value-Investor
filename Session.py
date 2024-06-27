@@ -5,3 +5,4 @@ class Session:
             self.symbols = symbols
         else:
             self.symbols = {}
+            print(self.symbols)

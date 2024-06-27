@@ -1,6 +1,6 @@
 import yfinance as yf
 
-amzn = yf.Ticker("AMZN")
+amzn = yf.Ticker("BAYRY")
 
 ebit = amzn.financials.loc["EBIT"][0]
 revenue_current = amzn.financials.loc["Total Revenue"][0]

@@ -58,11 +58,16 @@ for portfolio_name in portfolio_names:
         stock_path = os.path.join(portfolio_path, stock_name)
         data_path = os.path.join(stock_path, "data.csv")
         data_csv = open(data_path, "r")
-        data_reader = csv.DictReader(data_csv)
-        competitors = []
-        for row in data_reader:
-            competitors.append(DM.symbols[row["Competitors"]])
-        main_symbol = DM.symbols[stock_name]
+        data_reader = csv.reader(data_csv)
+        competitors_list = data_reader.__next__()
+        competitors = {}
+        main_symbol = DM.symbols[competitors_list[0]]
+        index = 1
+        while index < len(competitors_list):
+            competitor = competitors_list[index]
+            competitors[competitor] = DM.symbols[competitor]
+            index += 1
+        
         
         stock = Stock.Stock(main_symbol, competitors)
         portfolio.stocks[stock_name] = stock
@@ -73,10 +78,11 @@ for session_name in session_names:
     session_path = os.path.join(session_save_path, session_name)
     data_path = os.path.join(session_path, "data.csv")
     data_csv = open(data_path, "r")
-    data_reader = csv.DictReader(data_csv)
-    symbols = []
+    data_reader = csv.reader(data_csv)
+    symbols = {}
     for row in data_reader:
-        symbols.append(DM.symbols[row["Symbols"]])
+        for value in row:
+            symbols[value] = DM.symbols[value]
     
     session = Session.Session(session_name, symbols)
     DM.sessions[session_name] = session

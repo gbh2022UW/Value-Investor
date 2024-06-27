@@ -4,6 +4,7 @@ import DataManager as DM
 import Session
 import Portfolio
 import Symbol
+import Stock
 
 '''
 class GUI:
@@ -60,10 +61,14 @@ def StockResearchTemplate(session_name):
     return window
 
 def MyPortfoliosTemplate(portfolio_name):
+    stock_names = []
+    for stock in DM.portfolios[portfolio_name].stocks.values():
+        stock_names.append(stock.symbol.ticker_name)
     layout = [
         [sg.Text(portfolio_name, font = ("Times New Roman", 24))],
         [sg.Button("Home", key = "??HOME??")],
-        [sg.Button("Stock Research", key = "??STOCK RESEARCH??")],
+        [sg.Button("Add Stock", key = "??ADD STOCK??"), sg.Input(key = "??ADD STOCK NAME??")],
+        [sg.Button("Add Competitor", key = "??ADD COMPETITOR??"), sg.Input(key = "??ADD COMPETITOR NAME??"), sg.Combo(stock_names, s = (40, 50), key = "??LOAD STOCK NAME??")],
         [sg.Button("Quit", key = "??QUIT??")]
         
     ]
@@ -118,11 +123,11 @@ class WelcomeWindow(Window):
                     new_session_name = "New Session"
                 else:
                     new_session_name = "New Session " + str(DM.new_session_count)
-            DM.sessions[new_session_name] = Session.Session(new_session_name)
+            DM.sessions[new_session_name] = Session.Session(new_session_name, {})
             self.next_window = StockResearchWindow(StockResearchTemplate(new_session_name), new_session_name)
             self.close = True
         if event == "??LOAD PORTFOLIO??":
-            self.next_window = MyPortfoliosWindow(MyPortfoliosTemplate(values["??LOAD PORTFOLIO NAME??"]))
+            self.next_window = MyPortfoliosWindow(MyPortfoliosTemplate(values["??LOAD PORTFOLIO NAME??"]), values["??LOAD PORTFOLIO NAME??"])
             self.close = True
         if event == "??NEW PORTFOLIO??":
             new_portfolio_name = values["??NEW PORTFOLIO NAME??"]
@@ -132,7 +137,7 @@ class WelcomeWindow(Window):
                 else:
                     new_portfolio_name = "New Portfolio " + str(DM.new_portfolio_count)
             DM.portfolios[new_portfolio_name] = Portfolio.Portfolio(new_portfolio_name)
-            self.next_window = MyPortfoliosWindow(MyPortfoliosTemplate(new_portfolio_name))
+            self.next_window = MyPortfoliosWindow(MyPortfoliosTemplate(new_portfolio_name), new_portfolio_name)
             self.close = True
     
     
@@ -149,21 +154,32 @@ class StockResearchWindow(Window):
             self.next_window = WelcomeWindow(WelcomeTemplate())
             self.close = True
         if event == "??ADD SYMBOL??":
-                new_symbol = Symbol.Symbol(values["??ADD SYMBOL NAME??"])
-                DM.sessions[self.session_name].symbols[values["??ADD SYMBOL NAME??"]] = new_symbol
+            new_symbol_name = values["??ADD SYMBOL NAME??"]
+            if not new_symbol_name in DM.symbols:
+                new_symbol = Symbol.Symbol(new_symbol_name)
+                DM.symbols[new_symbol_name] = new_symbol
+            else:
+                new_symbol = DM.symbols[new_symbol_name]
+            DM.sessions[self.session_name].symbols[new_symbol_name] = new_symbol
             
 
 
 class MyPortfoliosWindow(Window):
-    def __init__(self, window):
+    def __init__(self, window, portfolio_name):
         self.window = window
+        self.portfolio_name = portfolio_name
         self.eventFunctions = [self.MyPortfoliosEvents]
 
     def MyPortfoliosEvents(self, event, values):
-        if event == "??STOCK RESEARCH??":
-            print("Stock Research")
-            self.next_window = StockResearchWindow(StockResearchTemplate())
-            self.close = True
+        if event == "??ADD STOCK??":
+            new_stock_name = values["??ADD STOCK NAME??"]
+            DM.portfolios[self.portfolio_name].stocks[new_stock_name] = Stock.Stock(DM.symbols[new_stock_name])
+        if event == "??ADD COMPETITOR??":
+            new_competitor_name = values["??ADD COMPETITOR NAME??"]
+            load_stock_name = values["??LOAD STOCK NAME??"]
+            if not new_competitor_name in DM.symbols:
+                DM.symbols[new_competitor_name] = Symbol.Symbol(new_competitor_name)
+            DM.portfolios[self.portfolio_name].stocks[load_stock_name].competitors[new_competitor_name] = DM.symbols[new_competitor_name]
         if event == "??HOME??":
             print("Home")
             self.next_window = WelcomeWindow(WelcomeTemplate())

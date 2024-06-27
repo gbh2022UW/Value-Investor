@@ -4,6 +4,7 @@ class Symbol:
     def __init__(self, ticker_name, data = None):
         self.ticker_name = ticker_name
         if data is None:
+            print(ticker_name)
             self.ticker = yf.Ticker(ticker_name)
             self.ebit = self.ticker.financials.loc["EBIT"][0]
             self.revenue_current = self.ticker.financials.loc["Total Revenue"][0]
