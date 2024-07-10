@@ -41,8 +41,6 @@ def WelcomeTemplate():
         [sg.Text("Welcome to Value Investor!", font = ("Times New Roman", 24))],
         [sg.Button("Load Stock Research Session", key = "??LOAD SESSION??"), sg.Combo(session_names, s = (40, 50), key = "??LOAD SESSION NAME??")],
         [sg.Button("New Stock Research Session", key = "??NEW SESSION??"), sg.Input(key = "??NEW SESSION NAME??")],
-        [sg.Button("Load Portfolio", key = "??LOAD PORTFOLIO??"), sg.Combo(portfolio_names, s = (40, 50), key = "??LOAD PORTFOLIO NAME??")],
-        [sg.Button("New Portfolio", key = "??NEW PORTFOLIO??"), sg.Input(key = "??NEW PORTFOLIO NAME??")],
         [sg.Button("Quit", key = "??QUIT??")]
         
     ]

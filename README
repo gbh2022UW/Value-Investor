@@ -1,0 +1,15 @@
+Welcome to Value Investor!
+
+First time install:
+run "pip install PySimpleGUI"
+run "pip install yfinance"
+
+The purpose of this program is to allow you to visualize key financial statistics of your investments on one concise screen. You can use this for researching new stocks, evaluating your portfolios, comparing competitors to a stock you own, or any other way you see fit. You can create sessions and then add and delete stock symbols (AAPL, META, NVDA) to compare financials.
+
+Current financial statistics shown:
+Currently, Value Investor just shows three main statistics:
+1. EBIT / Enterprise value - commonly used to show how good a "deal" a stock is
+2. 3 Year Change in Revenue - the percent increase in revenue of a company through 3 years, used to predict growth
+3. EBIT / Revenue - otherwise known as a margin, this shows the health of a company a.k.a how much of it's revenue it gets to take as profit
+
+Though I've tried to eliminate bugs from user error, try not to abuse the program by doing things such as creating session names that already exist, generating sessions with blank names, etc. 

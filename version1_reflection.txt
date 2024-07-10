@@ -1,0 +1,23 @@
+When designing the first iteration of this program, I outlined 4 main goals:
+1. Functional GUI that allows you to initialize information from a ticker, access saved tickers
+2. Allow user to set portfolios full of tickers
+3. Sort by sectors / competitors
+4. Good visualization on pros/cons of each competitor, easily comparable
+
+After developing the first iteration, I can say that I met 3 out of the 4 of these requirements. What I didn't add was add information
+by sector or competitors.
+
+Additionally, I was at first planning on having a my stocks screen and a stock research screen. After working on the program, I 
+decided the distinction wasn't important enough to warrant the time in developing it, so the user can just use the stock research
+screen for all research, planning, and portfolio creation.
+
+Here are some things to implement in future versions:
+1. Debt tracker / trackers
+2. Cash flows
+3. Sectors / Competitors
+4. Automatic generation of symbols from general information such as s&p stocks, sector-specific stocks, or competitors, so you don't
+    have to constantly add new symbols manually
+5. Defining data such as EV, EBIT 
+6. Ability to "turn off" different statistics to make viewing easier
+7. 
+
