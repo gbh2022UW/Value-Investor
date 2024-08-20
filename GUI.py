@@ -7,6 +7,8 @@ import Symbol
 import Stock
 import os
 import shutil
+import yfinance as yf
+import pandas as pd
 
 '''
 class GUI:
@@ -165,7 +167,21 @@ class StockResearchWindow(Window):
         if event == "??HOME??":
             self.next_window = WelcomeWindow(WelcomeTemplate())
             self.close = True
-        if event == "??ADD SYMBOL??":
+        if event == "??ADD SYMBOL??" and values["??ADD SYMBOL NAME??"] == "FULLLIST":
+            snp500_table = pd.read_html('https://en.wikipedia.org/wiki/List_of_S%26P_500_companies'
+)
+            snp500_df = snp500_table[0]
+            tickers = snp500_df["Symbol"].tolist()
+
+            for name in tickers:
+                if not name in DM.symbols:
+                    new_symbol = Symbol.Symbol(name)
+                    DM.symbols[name] = new_symbol
+                else:
+                    new_symbol = DM.symbols[name]
+                DM.sessions[self.session_name].symbols[name] = new_symbol
+
+        elif event == "??ADD SYMBOL??":
             new_symbol_name = values["??ADD SYMBOL NAME??"]
             if not new_symbol_name in DM.symbols:
                 new_symbol = Symbol.Symbol(new_symbol_name)
