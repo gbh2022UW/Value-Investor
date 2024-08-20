@@ -50,12 +50,12 @@ def WelcomeTemplate():
     return window
 
 def StockResearchTemplate(session_name):
-    headings = ["Return on Enterprise Value", "Three Year Change in Revenue", "EBIT Margin", "Debt/Equity", "Sector", "Industry"]
+    headings = DM.sessions[session_name].shown_statistics
     treedata = sg.TreeData()
     for symbol in DM.sessions[session_name].symbols.values():
         key = "??" + symbol.ticker_name + "??"
-        treedata.Insert("", key, symbol.ticker_name, 
-                        [round(float(symbol.data["Return Enterprise Value"]), 2), round(float(symbol.data["Three Year Revenue Change"]), 2), round(float(symbol.data["EBIT Margin"]), 2), round(float(symbol.data["Debt/Equity"]), 2), symbol.data["Sector"], symbol.data["Industry"]])
+        print(DM.sessions[session_name].GetShownData(symbol))
+        treedata.Insert("", key, symbol.ticker_name, DM.sessions[session_name].GetShownData(symbol))
     symbols = []
     for symbol in DM.sessions[session_name].symbols:
         symbols.append(symbol)
@@ -64,7 +64,7 @@ def StockResearchTemplate(session_name):
         [sg.Button("Home", key = "??HOME??")],
         [sg.Button("Add Symbol", key = "??ADD SYMBOL??"), sg.Input(key = "??ADD SYMBOL NAME??"), sg.Button("Refresh", key = "??REFRESH??")],
         [sg.Tree(treedata, headings = headings, enable_events = True, change_submits = True, key  = "??TREE??")],
-        [sg.Button("Delete Symbol", key = "??DELETE SYMBOL??"), sg.Combo(symbols, key = "??DELETE SYMBOL NAME??")],
+        [sg.Button("Delete Symbol", key = "??DELETE SYMBOL??"), sg.Combo(symbols, key = "??DELETE SYMBOL NAME??"), sg.Button("Hide Statistic", key = "??HIDE STATISTIC??"), sg.Combo(DM.sessions[session_name].shown_statistics, key = "??HIDE STATISTIC NAME??"), sg.Button("Show Statistic", key = "??SHOW STATISTIC??"), sg.Combo(DM.sessions[session_name].hidden_statistics, key = "??SHOW STATISTIC NAME??")],
         [sg.Button("Quit", key = "??QUIT??")],
         [sg.Button("Update", key = "??UPDATE??")]
         
@@ -136,7 +136,7 @@ class WelcomeWindow(Window):
                     new_session_name = "New Session"
                 else:
                     new_session_name = "New Session " + str(DM.new_session_count)
-            DM.sessions[new_session_name] = Session.Session(new_session_name, {})
+            DM.sessions[new_session_name] = Session.Session(new_session_name)
             self.next_window = StockResearchWindow(StockResearchTemplate(new_session_name), new_session_name)
             self.close = True
         if event == "??LOAD PORTFOLIO??":
@@ -186,6 +186,19 @@ class StockResearchWindow(Window):
             for symbol in DM.sessions[self.session_name].symbols:
                 DM.symbols[symbol] = Symbol.Symbol(symbol)
             #add loading bar / screen
+        
+        if event == "??HIDE STATISTIC??":
+            if values["??HIDE STATISTIC NAME??"] in DM.sessions[self.session_name].shown_statistics:
+                DM.sessions[self.session_name].shown_statistics.remove(values["??HIDE STATISTIC NAME??"])
+                DM.sessions[self.session_name].hidden_statistics.append(values["??HIDE STATISTIC NAME??"])
+            else:
+                pass
+        if event == "??SHOW STATISTIC??":
+            if values["??SHOW STATISTIC NAME??"] in DM.sessions[self.session_name].hidden_statistics:
+                DM.sessions[self.session_name].hidden_statistics.remove(values["??SHOW STATISTIC NAME??"])
+                DM.sessions[self.session_name].shown_statistics.append(values["??SHOW STATISTIC NAME??"])
+            else:
+                pass
 
 
             
