@@ -5,6 +5,8 @@ import Session
 import Portfolio
 import Symbol
 import Stock
+import os
+import shutil
 
 '''
 class GUI:
@@ -64,7 +66,8 @@ def StockResearchTemplate(session_name):
         [sg.Button("Add Symbol", key = "??ADD SYMBOL??"), sg.Input(key = "??ADD SYMBOL NAME??"), sg.Button("Refresh", key = "??REFRESH??")],
         [sg.Tree(treedata, headings = headings, enable_events = True, change_submits = True, key  = "??TREE??")],
         [sg.Button("Delete Symbol", key = "??DELETE SYMBOL??"), sg.Combo(symbols, key = "??DELETE SYMBOL NAME??")],
-        [sg.Button("Quit", key = "??QUIT??")]
+        [sg.Button("Quit", key = "??QUIT??")],
+        [sg.Button("Update", key = "??UPDATE??")]
         
     ]
     window = sg.Window("Value Investor", layout)
@@ -178,6 +181,16 @@ class StockResearchWindow(Window):
             delete_symbol = values["??DELETE SYMBOL NAME??"]
             if delete_symbol in DM.sessions[self.session_name].symbols:
                 DM.sessions[self.session_name].symbols.pop(delete_symbol)
+        #in progress
+        if event == "??UPDATE??":
+            newSymbols = DM.symbols
+            shutil.rmtree(DM.symbol_save_path)
+            os.mkdir(os.path.join(DM.save_path, "Symbols"))
+            for symbol in DM.symbols:
+                DM.symbols[symbol] = Symbol.Symbol(symbol)
+            #add loading bar / screen
+
+
             
 
 

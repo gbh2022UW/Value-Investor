@@ -11,20 +11,24 @@ class Symbol:
                 try:
                     self.revenue_current = self.ticker.financials.loc["Total Revenue"][0]
                     self.revenue_three_years = self.ticker.financials.loc["Total Revenue"][3]
-                    self.revenue_five_years = self.ticker.financials.loc["Total Revenue"][5]
-                    self.revenue_ten_years = self.ticker.financials.loc["Total Revenue"][10]
                     self.three_change_revenue = (self.revenue_current / self.revenue_three_years - 1) / 3 * 100
-                    self.five_change_revenue = (self.revenue_current / self.revenue_five_years - 1) / 5 * 100
-                    self.ten_change_revenue = (self.revenue_current / self.revenue_ten_years - 1) / 10 * 100
 
                 except:
                     self.revenue_current = 0
                     self.revenue_three_years = 0
-                    self.revenue_five_years = 0
-                    self.revenue_ten_years = 0
                     self.three_change_revenue = 0
+
+                #not currently working, cant access past 3 years
+                try:
+                    self.five_change_revenue = (self.revenue_current / self.revenue_five_years - 1) / 5 * 100
+                    self.ten_change_revenue = (self.revenue_current / self.revenue_ten_years - 1) / 10 * 100
+                    self.revenue_five_years = self.ticker.financials.loc["Total Revenue"][5]
+                    self.revenue_ten_years = self.ticker.financials.loc["Total Revenue"][10]
+                except:
                     self.five_change_revenue = 0
                     self.ten_change_revenue = 0
+                    self.revenue_five_years = 0
+                    self.revenue_ten_years = 0
 
                 try:
                     self.ebit = self.ticker.financials.loc["EBIT"][0]
