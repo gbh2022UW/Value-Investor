@@ -55,10 +55,15 @@ class Symbol:
 
                 #sector tE
                 try:
-                    self.sectorName = self.ticker.info.get('sector')
+                    self.sectorName = self.ticker.info["sector"]
                 except:
                     self.sectorName = ""
-                
+
+                #industry tE
+                try:
+                    self.industryName = self.ticker.info["industry"]
+                except:
+                    self.industryName = ""               
                 
                 
                 self.data = {"EBIT" : self.ebit,
@@ -73,7 +78,8 @@ class Symbol:
                      "Ten Year Revenue Change" : self.ten_change_revenue,
                      "EBIT Margin" : self.ebit_margin,
                      "Debt/Equity" : self.debt_to_equity,
-                     "Sector" : self.sectorName
+                     "Sector" : self.sectorName,
+                     "Industry" : self.industryName
                      }
             except:
                 self.data = {"EBIT" : 0,
@@ -88,7 +94,8 @@ class Symbol:
                      "Ten Year Revenue Change" : 0,
                      "EBIT Margin" : 0,
                      "Debt/Equity" : 0,
-                     "Sector" : ""
+                     "Sector" : "",
+                     "Industry" : ""
                      }
             
         else:

@@ -50,12 +50,12 @@ def WelcomeTemplate():
     return window
 
 def StockResearchTemplate(session_name):
-    headings = ["Return on Enterprise Value", "Three Year Change in Revenue", "Five Year Change in Revenue", "Ten Year Change in Revenue", "EBIT Margin", "Debt/Equity"]
+    headings = ["Return on Enterprise Value", "Three Year Change in Revenue", "EBIT Margin", "Debt/Equity", "Sector", "Industry"]
     treedata = sg.TreeData()
     for symbol in DM.sessions[session_name].symbols.values():
         key = "??" + symbol.ticker_name + "??"
         treedata.Insert("", key, symbol.ticker_name, 
-                        [round(float(symbol.data["Return Enterprise Value"]), 2), round(float(symbol.data["Three Year Revenue Change"]), 2), round(float(symbol.data["EBIT Margin"]), 2), round(float(symbol.data["Debt/Equity"]), 2)], round(float(symbol.data["Sector"]), 2))
+                        [round(float(symbol.data["Return Enterprise Value"]), 2), round(float(symbol.data["Three Year Revenue Change"]), 2), round(float(symbol.data["EBIT Margin"]), 2), round(float(symbol.data["Debt/Equity"]), 2), symbol.data["Sector"], symbol.data["Industry"]])
     symbols = []
     for symbol in DM.sessions[session_name].symbols:
         symbols.append(symbol)
