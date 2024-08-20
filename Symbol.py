@@ -11,11 +11,20 @@ class Symbol:
                 try:
                     self.revenue_current = self.ticker.financials.loc["Total Revenue"][0]
                     self.revenue_three_years = self.ticker.financials.loc["Total Revenue"][3]
-                    self.change_revenue = (self.revenue_current / self.revenue_three_years - 1) / 3 * 100
+                    self.revenue_five_years = self.ticker.financials.loc["Total Revenue"][5]
+                    self.revenue_ten_years = self.ticker.financials.loc["Total Revenue"][10]
+                    self.three_change_revenue = (self.revenue_current / self.revenue_three_years - 1) / 3 * 100
+                    self.five_change_revenue = (self.revenue_current / self.revenue_five_years - 1) / 5 * 100
+                    self.ten_change_revenue = (self.revenue_current / self.revenue_ten_years - 1) / 10 * 100
+
                 except:
                     self.revenue_current = 0
                     self.revenue_three_years = 0
-                    self.change_revenue = 0
+                    self.revenue_five_years = 0
+                    self.revenue_ten_years = 0
+                    self.three_change_revenue = 0
+                    self.five_change_revenue = 0
+                    self.ten_change_revenue = 0
 
                 try:
                     self.ebit = self.ticker.financials.loc["EBIT"][0]
@@ -35,17 +44,25 @@ class Symbol:
                 self.data = {"EBIT" : self.ebit,
                      "Current Revenue" : self.revenue_current,
                      "Three Years Revenue" : self.revenue_three_years,
+                     "Five Years Revenue" : self.revenue_five_years,
+                     "Ten Years Reveneue" : self.revenue_ten_years,
                      "Enterprise Value" : self.enterprise_value,
                      "Return Enterprise Value" : self.return_enterprise_value,
-                     "Revenue Change" : self.change_revenue,
+                     "Three Year Revenue Change" : self.three_change_revenue,
+                     "Five Year Revenue Change" : self.five_change_revenue,
+                     "Ten Year Revenue Change" : self.ten_change_revenue,
                      "EBIT Margin" : self.ebit_margin}
             except:
                 self.data = {"EBIT" : 0,
                      "Current Revenue" : 0,
                      "Three Years Revenue" : 0,
+                     "Five Years Revenue" : 0,
+                     "Ten Years Revenue" : 0,
                      "Enterprise Value" : 0,
                      "Return Enterprise Value" : 0,
-                     "Revenue Change" : 0,
+                     "Three Year Revenue Change" : 0,
+                     "Five Year Revenue Change" : 0,
+                     "Ten Year Revenue Change" : 0,
                      "EBIT Margin" : 0}
             
         else:

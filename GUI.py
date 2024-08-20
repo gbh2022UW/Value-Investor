@@ -48,12 +48,13 @@ def WelcomeTemplate():
     return window
 
 def StockResearchTemplate(session_name):
-    headings = ["Return on Enterprise Value", "Three Year Change in Revenue", "EBIT Margin"]
+    headings = ["Return on Enterprise Value", "Three Year Change in Revenue", "Five Year Change in Revenue", "Ten Year Change in Revenue", "EBIT Margin"]
     treedata = sg.TreeData()
     for symbol in DM.sessions[session_name].symbols.values():
         key = "??" + symbol.ticker_name + "??"
         treedata.Insert("", key, symbol.ticker_name, 
-                        [round(float(symbol.data["Return Enterprise Value"]), 2), round(float(symbol.data["Revenue Change"]), 2), round(float(symbol.data["EBIT Margin"]), 2)])
+                        [round(float(symbol.data["Return Enterprise Value"]), 2), round(float(symbol.data["Three Year Revenue Change"]), 2),  round(float(symbol.data["Five Year Revenue Change"]), 2),  
+                         round(float(symbol.data["Ten Year Revenue Change"]), 2), round(float(symbol.data["EBIT Margin"]), 2)])
     symbols = []
     for symbol in DM.sessions[session_name].symbols:
         symbols.append(symbol)
@@ -116,6 +117,7 @@ class Window():
         for function in self.eventFunctions:
             function(event, values)
 
+#inherits window
 class WelcomeWindow(Window):
     def __init__(self, window):
         self.window = window
@@ -150,7 +152,7 @@ class WelcomeWindow(Window):
             self.close = True
     
     
-
+#inherits the window class
 class StockResearchWindow(Window):
     def __init__(self, window, session_name):
         self.window = window

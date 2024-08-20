@@ -16,7 +16,9 @@ data_template = {"EBIT" : None,
                  "Three Years Revenue" : None,
                  "Enterprise Value" : None,
                  "Return Enterprise Value" : None,
-                 "Revenue Change" : None,
+                 "Three Year Revenue Change" : None,
+                 "Five Year Revenue Change" : None,
+                 "Ten Year Revenue Change" : None,
                  "EBIT Margin" : None}
 
 def Quit():
