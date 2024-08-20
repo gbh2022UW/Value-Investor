@@ -48,6 +48,7 @@ class Symbol:
                 except:
                     self.debt_to_equity = 0
                 
+                print(self.ticker.info)
                 
                 
                 self.data = {"EBIT" : self.ebit,

@@ -1,0 +1,7 @@
+In order to add new statistics to the functionality of this program, you need to change three things.
+
+First, add a try except in the constructor of the Symbol class in Symbol.py and add it to the self.data dictionary 
+
+Second, edit the GUI.py tree headings
+
+Finally, add it to the treedata list just under that
