@@ -183,10 +183,8 @@ class StockResearchWindow(Window):
                 DM.sessions[self.session_name].symbols.pop(delete_symbol)
         #in progress
         if event == "??UPDATE??":
-            newSymbols = DM.symbols
-            shutil.rmtree(DM.symbol_save_path)
-            os.mkdir(os.path.join(DM.save_path, "Symbols"))
-            for symbol in DM.symbols:
+            #shutil.rmtree(DM.symbol_save_path)
+            for symbol in DM.sessions[self.session_name].symbols:
                 DM.symbols[symbol] = Symbol.Symbol(symbol)
             #add loading bar / screen
 
