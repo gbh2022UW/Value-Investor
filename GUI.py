@@ -56,7 +56,7 @@ def StockResearchTemplate(session_name):
         key = "??" + symbol.ticker_name + "??"
         treedata.Insert("", key, symbol.ticker_name, 
                         [round(float(symbol.data["Return Enterprise Value"]), 2), round(float(symbol.data["Three Year Revenue Change"]), 2),  round(float(symbol.data["Five Year Revenue Change"]), 2),  
-                         round(float(symbol.data["Ten Year Revenue Change"]), 2), round(float(symbol.data["EBIT Margin"]), 2)], round(float(symbol.data["Debt/Equity"]), 2))
+                         round(float(symbol.data["Ten Year Revenue Change"]), 2), round(float(symbol.data["EBIT Margin"]), 2), round(float(symbol.data["Debt/Equity"]), 2)])
     symbols = []
     for symbol in DM.sessions[session_name].symbols:
         symbols.append(symbol)

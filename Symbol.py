@@ -45,6 +45,7 @@ class Symbol:
 
                 try:
                     self.debt_to_equity = self.ticker.info["debtToEquity"]
+                    print(self.debt_to_equity)
                 except:
                     self.debt_to_equity = 0
                 
