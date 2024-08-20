@@ -1,7 +1,7 @@
 these are the requirements for the version 1.1
 
 
-1. Update button that can refresh data on stocks to reflect recent changes
+1. Update button that can refresh data on stocks to reflect recent changes (DONE)
 2. Sector categorization
 3. New statistics
 4. Customize different research session layouts - checkboxes for showing different columns
@@ -9,6 +9,6 @@ these are the requirements for the version 1.1
 6. Allow sorting by highest to lowest in certain statistic such as companies from highest ebit margin to lowest
 
 New Statistics to Add:
-1. 5 year CAGR 
-2. 10 year CAGR
+1. 5 year CAGR (Need diff api)
+2. 10 year CAGR (Need diff api)
 3. Debt to equity

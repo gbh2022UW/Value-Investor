@@ -61,7 +61,9 @@ class Symbol:
                      "Five Year Revenue Change" : self.five_change_revenue,
                      "Ten Year Revenue Change" : self.ten_change_revenue,
                      "EBIT Margin" : self.ebit_margin,
-                     "Debt/Equity" : self.debt_to_equity}
+                     "Debt/Equity" : self.debt_to_equity,
+                     "Sector" : self.ticker.info.get('sector')
+                     }
             except:
                 self.data = {"EBIT" : 0,
                      "Current Revenue" : 0,
@@ -74,7 +76,9 @@ class Symbol:
                      "Five Year Revenue Change" : 0,
                      "Ten Year Revenue Change" : 0,
                      "EBIT Margin" : 0,
-                     "Debt/Equity" : 0}
+                     "Debt/Equity" : 0,
+                     "Sector" : 
+                     }
             
         else:
             self.data = data    
