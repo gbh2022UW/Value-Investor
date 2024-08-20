@@ -77,7 +77,7 @@ class Symbol:
                      "Ten Year Revenue Change" : 0,
                      "EBIT Margin" : 0,
                      "Debt/Equity" : 0,
-                     "Sector" : 
+                     "Sector" : ""
                      }
             
         else:
