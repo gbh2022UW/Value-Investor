@@ -44,7 +44,7 @@ class Symbol:
                     self.return_enterprise_value = 0
 
                 try:
-                    self.debt_to_equity = self.ticker.balance_sheet["Total Debt/Equity"]
+                    self.debt_to_equity = self.ticker.info["debtToEquity"]
                 except:
                     self.debt_to_equity = 0
                 
