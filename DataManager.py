@@ -11,16 +11,6 @@ sessions = {}
 new_session_count = 0
 new_portfolio_count = 0
 
-data_template = {"EBIT" : None,
-                 "Current Revenue" : None,
-                 "Three Years Revenue" : None,
-                 "Enterprise Value" : None,
-                 "Return Enterprise Value" : None,
-                 "Three Year Revenue Change" : None,
-                 "Five Year Revenue Change" : None,
-                 "Ten Year Revenue Change" : None,
-                 "EBIT Margin" : None}
-
 def Quit():
     for session in sessions.values():
         session_path = os.path.join(session_save_path, session.name)
@@ -53,7 +43,7 @@ def Quit():
             os.makedirs(symbol_path)
         data_path = os.path.join(symbol_path, "data.csv")
         data_csv = open(data_path, "w")
-        fieldnames = dict.fromkeys(data_template)
+        fieldnames = dict.fromkeys(symbol.data)
         data_writer = csv.DictWriter(data_csv, fieldnames)
         data_writer.writeheader()
         data_writer.writerow(symbol.data)
