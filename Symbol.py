@@ -8,6 +8,7 @@ class Symbol:
             try:
                 self.ticker = yf.Ticker(ticker_name)
 
+                #revenue tE
                 try:
                     self.revenue_current = self.ticker.financials.loc["Total Revenue"][0]
                     self.revenue_three_years = self.ticker.financials.loc["Total Revenue"][3]
@@ -30,12 +31,15 @@ class Symbol:
                     self.revenue_five_years = 0
                     self.revenue_ten_years = 0
 
+                #ebit/ebit margin tE
                 try:
                     self.ebit = self.ticker.financials.loc["EBIT"][0]
                     self.ebit_margin = self.ebit / self.revenue_current * 100
                 except:
                     self.ebit = 0
                     self.ebit_margin = 0
+
+                #enterpise value tE
                 try:
                     self.enterprise_value = self.ticker.info["enterpriseValue"]
                     self.return_enterprise_value = self.ebit / self.enterprise_value * 100
@@ -43,11 +47,18 @@ class Symbol:
                     self.enterprise_value = 0
                     self.return_enterprise_value = 0
 
+            #debt to equity tE
                 try:
                     self.debt_to_equity = self.ticker.info["debtToEquity"]
                     print(self.debt_to_equity)
                 except:
                     self.debt_to_equity = 0
+
+                #sector tE
+                try:
+                    self.sectorName = self.ticker.info.get('sector')
+                except:
+                    self.sectorName = ""
                 
                 
                 
@@ -63,7 +74,7 @@ class Symbol:
                      "Ten Year Revenue Change" : self.ten_change_revenue,
                      "EBIT Margin" : self.ebit_margin,
                      "Debt/Equity" : self.debt_to_equity,
-                     "Sector" : self.ticker.info.get('sector')
+                     "Sector" : self.sectorName
                      }
             except:
                 self.data = {"EBIT" : 0,
