@@ -42,6 +42,11 @@ class Symbol:
                 except:
                     self.enterprise_value = 0
                     self.return_enterprise_value = 0
+
+                try:
+                    self.debt_to_equity = self.ticker.balance_sheet["Total Debt/Equity"]
+                except:
+                    self.debt_to_equity = 0
                 
                 
                 
@@ -55,7 +60,8 @@ class Symbol:
                      "Three Year Revenue Change" : self.three_change_revenue,
                      "Five Year Revenue Change" : self.five_change_revenue,
                      "Ten Year Revenue Change" : self.ten_change_revenue,
-                     "EBIT Margin" : self.ebit_margin}
+                     "EBIT Margin" : self.ebit_margin,
+                     "Debt/Equity" : self.debt_to_equity}
             except:
                 self.data = {"EBIT" : 0,
                      "Current Revenue" : 0,
@@ -67,7 +73,8 @@ class Symbol:
                      "Three Year Revenue Change" : 0,
                      "Five Year Revenue Change" : 0,
                      "Ten Year Revenue Change" : 0,
-                     "EBIT Margin" : 0}
+                     "EBIT Margin" : 0,
+                     "Debt/Equity" : 0}
             
         else:
             self.data = data    
