@@ -3,8 +3,8 @@ these are the requirements for the version 1.1
 
 1. Update button that can refresh data on stocks to reflect recent changes (DONE)
 2. Sector categorization (DONE)
-3. New statistics (3 / 3 DONE)
-4. Customize different research session layouts - checkboxes for showing different columns
+3. New statistics (1 / 3 DONE)
+4. Customize different research session layouts - checkboxes for showing different columns (DONE)
 5. Allow showing history of valuation models
 6. Allow sorting by highest to lowest in certain statistic such as companies from highest ebit margin to lowest
 

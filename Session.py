@@ -23,7 +23,6 @@ class Session:
             statistic = symbol.data[shown_statistic]
             try:
                 statistic = round(statistic, 2)
-                print("HELLOSDF")
             except:
                 pass
             data.append(statistic)

@@ -56,7 +56,6 @@ def StockResearchTemplate(session_name):
     treedata = sg.TreeData()
     for symbol in DM.sessions[session_name].symbols.values():
         key = "??" + symbol.ticker_name + "??"
-        print(DM.sessions[session_name].GetShownData(symbol))
         treedata.Insert("", key, symbol.ticker_name, DM.sessions[session_name].GetShownData(symbol))
     symbols = []
     for symbol in DM.sessions[session_name].symbols:
@@ -66,9 +65,13 @@ def StockResearchTemplate(session_name):
         [sg.Button("Home", key = "??HOME??")],
         [sg.Button("Add Symbol", key = "??ADD SYMBOL??"), sg.Input(key = "??ADD SYMBOL NAME??"), sg.Button("Refresh", key = "??REFRESH??")],
         [sg.Tree(treedata, headings = headings, enable_events = True, change_submits = True, key  = "??TREE??")],
-        [sg.Button("Delete Symbol", key = "??DELETE SYMBOL??"), sg.Combo(symbols, key = "??DELETE SYMBOL NAME??"), sg.Button("Hide Statistic", key = "??HIDE STATISTIC??"), sg.Combo(DM.sessions[session_name].shown_statistics, key = "??HIDE STATISTIC NAME??"), sg.Button("Show Statistic", key = "??SHOW STATISTIC??"), sg.Combo(DM.sessions[session_name].hidden_statistics, key = "??SHOW STATISTIC NAME??")],
-        [sg.Button("Quit", key = "??QUIT??")],
-        [sg.Button("Update", key = "??UPDATE??")]
+        [sg.Button("Delete Symbol", key = "??DELETE SYMBOL??"), sg.Combo(symbols, key = "??DELETE SYMBOL NAME??"), 
+         sg.Button("Hide Statistic", key = "??HIDE STATISTIC??"), sg.Combo(DM.sessions[session_name].shown_statistics, key = "??HIDE STATISTIC NAME??"), 
+         sg.Button("Show Statistic", key = "??SHOW STATISTIC??"), sg.Combo(DM.sessions[session_name].hidden_statistics, key = "??SHOW STATISTIC NAME??")],
+        [sg.Button("Sort by Highest", key = "??SORT BY HIGHEST??"), sg.Button("Sort by Lowest", key = "??SORT BY LOWEST??"), sg.Combo(DM.sessions[session_name].shown_statistics, key = "??SORT STATISTIC NAME??")],
+        [sg.Button("Update Data", key = "??UPDATE??")],
+        [sg.Button("Quit", key = "??QUIT??")]
+        
         
     ]
     window = sg.Window("Value Investor", layout)
@@ -215,6 +218,29 @@ class StockResearchWindow(Window):
                 DM.sessions[self.session_name].shown_statistics.append(values["??SHOW STATISTIC NAME??"])
             else:
                 pass
+
+        if event == "??SORT BY LOWEST??":
+            if values["??SORT STATISTIC NAME??"] != "":
+                data = {}
+                for symbol in DM.sessions[self.session_name].symbols:
+                    data[symbol] = DM.sessions[self.session_name].symbols[symbol].data[values["??SORT STATISTIC NAME??"]]
+                data = dict(sorted(data.items(), key=lambda item: item[1]))
+
+                temp_symbols = DM.sessions[self.session_name].symbols
+                DM.sessions[self.session_name].symbols = {}
+                for symbol in data:
+                    DM.sessions[self.session_name].symbols[symbol] = temp_symbols[symbol]
+        if event == "??SORT BY HIGHEST??":
+            if values["??SORT STATISTIC NAME??"] != "":
+                data = {}
+                for symbol in DM.sessions[self.session_name].symbols:
+                    data[symbol] = DM.sessions[self.session_name].symbols[symbol].data[values["??SORT STATISTIC NAME??"]]
+                data = dict(sorted(data.items(), reverse=True, key=lambda item: item[1]))
+
+                temp_symbols = DM.sessions[self.session_name].symbols
+                DM.sessions[self.session_name].symbols = {}
+                for symbol in data:
+                    DM.sessions[self.session_name].symbols[symbol] = temp_symbols[symbol]
 
 
             
