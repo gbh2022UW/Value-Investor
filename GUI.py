@@ -45,6 +45,7 @@ def WelcomeTemplate():
         [sg.Text("Welcome to Value Investor!", font = ("Times New Roman", 24))],
         [sg.Button("Load Stock Research Session", key = "??LOAD SESSION??"), sg.Combo(session_names, s = (40, 50), key = "??LOAD SESSION NAME??")],
         [sg.Button("New Stock Research Session", key = "??NEW SESSION??"), sg.Input(key = "??NEW SESSION NAME??")],
+        [sg.Button("Delete Session", key="??DELETE SESSION??"), sg.Combo(session_names, key="??DELETE SESSION NAME??")],
         [sg.Button("Quit", key = "??QUIT??")]
         
     ]
@@ -158,6 +159,11 @@ class WelcomeWindow(Window):
             DM.portfolios[new_portfolio_name] = Portfolio.Portfolio(new_portfolio_name)
             self.next_window = MyPortfoliosWindow(MyPortfoliosTemplate(new_portfolio_name), new_portfolio_name)
             self.close = True
+
+        if event == "??DELETE SESSION??":
+            del DM.sessions[values["??DELETE SESSION NAME??"]]
+            shutil.rmtree(os.path.join(DM.session_save_path, values["??DELETE SESSION NAME??"]))
+
     
     
 #inherits the window class

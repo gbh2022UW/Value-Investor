@@ -49,6 +49,7 @@ for symbol_name in symbol_names:
     
     symbol = Symbol.Symbol(symbol_name, data)
     DM.symbols[symbol_name] = symbol
+    data_csv.close()
 
 for portfolio_name in portfolio_names:
     portfolio_path = os.path.join(portfolio_save_path, portfolio_name)
@@ -75,6 +76,8 @@ for portfolio_name in portfolio_names:
         stock = Stock.Stock(main_symbol, competitors)
         portfolio.stocks[stock_name] = stock
 
+        data_csv.close()
+
     DM.portfolios[portfolio_name] = portfolio
         
 for session_name in session_names:
@@ -90,12 +93,15 @@ for session_name in session_names:
     session = Session.Session(session_name, symbols=symbols)
     DM.sessions[session_name] = session
 
+    data_csv.close()
+
 for session in DM.sessions.values():
     if "New Session" in session.name:
         DM.new_session_count += 1
 for portfolio in DM.portfolios.values():
     if "New Portfolio" in portfolio.name:
         DM.new_portfolio_count += 1
+
 
 
 welcome_window = GUI.WelcomeWindow(GUI.WelcomeTemplate())
