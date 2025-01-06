@@ -42,7 +42,10 @@ for symbol_name in symbol_names:
     data = {}
     for row in data_reader:
         for data_value in row:
-            data[data_value] = row[data_value]
+            try:
+                data[data_value] = float(row[data_value])
+            except:
+                data[data_value] = row[data_value]
     
     symbol = Symbol.Symbol(symbol_name, data)
     DM.symbols[symbol_name] = symbol
@@ -84,7 +87,7 @@ for session_name in session_names:
         for value in row:
             symbols[value] = DM.symbols[value]
     
-    session = Session.Session(session_name, symbols)
+    session = Session.Session(session_name, symbols=symbols)
     DM.sessions[session_name] = session
 
 for session in DM.sessions.values():
@@ -93,6 +96,7 @@ for session in DM.sessions.values():
 for portfolio in DM.portfolios.values():
     if "New Portfolio" in portfolio.name:
         DM.new_portfolio_count += 1
+
 
 welcome_window = GUI.WelcomeWindow(GUI.WelcomeTemplate())
 welcome_window.Activate()

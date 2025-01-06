@@ -72,7 +72,6 @@ def StockResearchTemplate(session_name):
         [sg.Button("Update Data", key = "??UPDATE??")],
         [sg.Button("Quit", key = "??QUIT??")]
         
-        
     ]
     window = sg.Window("Value Investor", layout)
     return window
@@ -176,6 +175,16 @@ class StockResearchWindow(Window):
             snp500_df = snp500_table[0]
             tickers = snp500_df["Symbol"].tolist()
 
+            for name in tickers:
+                if not name in DM.symbols:
+                    new_symbol = Symbol.Symbol(name)
+                    DM.symbols[name] = new_symbol
+                else:
+                    new_symbol = DM.symbols[name]
+                DM.sessions[self.session_name].symbols[name] = new_symbol
+
+        if event == "??ADD SYMBOL??" and values["??ADD SYMBOL NAME??"] == "FULL3000":
+            
             for name in tickers:
                 if not name in DM.symbols:
                     new_symbol = Symbol.Symbol(name)

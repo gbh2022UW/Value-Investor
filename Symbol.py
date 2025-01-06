@@ -4,7 +4,6 @@ class Symbol:
     def __init__(self, ticker_name, data = None):
         self.ticker_name = ticker_name
         if data is None:
-            print(ticker_name)
             try:
                 self.ticker = yf.Ticker(ticker_name)
 

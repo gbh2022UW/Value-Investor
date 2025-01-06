@@ -21,9 +21,9 @@ class Session:
         data = []
         for shown_statistic in self.shown_statistics:
             statistic = symbol.data[shown_statistic]
-            try:
+            
+            if type(statistic) is not str:
                 statistic = round(statistic, 2)
-            except:
-                pass
+            
             data.append(statistic)
         return data
