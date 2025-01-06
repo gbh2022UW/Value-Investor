@@ -63,13 +63,15 @@ def StockResearchTemplate(session_name):
     layout = [
         [sg.Text(session_name, font = ("Times New Roman", 24))],
         [sg.Button("Home", key = "??HOME??")],
-        [sg.Button("Add Symbol", key = "??ADD SYMBOL??"), sg.Input(key = "??ADD SYMBOL NAME??"), sg.Button("Refresh", key = "??REFRESH??")],
+        [sg.Button("Add Symbol", key = "??ADD SYMBOL??"), sg.Input(default_text="name", key = "??ADD SYMBOL NAME??"), sg.Button("Refresh", key = "??REFRESH??")],
         [sg.Tree(treedata, headings = headings, enable_events = True, change_submits = True, key  = "??TREE??")],
         [sg.Button("Delete Symbol", key = "??DELETE SYMBOL??"), sg.Combo(symbols, key = "??DELETE SYMBOL NAME??"), 
          sg.Button("Hide Statistic", key = "??HIDE STATISTIC??"), sg.Combo(DM.sessions[session_name].shown_statistics, key = "??HIDE STATISTIC NAME??"), 
          sg.Button("Show Statistic", key = "??SHOW STATISTIC??"), sg.Combo(DM.sessions[session_name].hidden_statistics, key = "??SHOW STATISTIC NAME??")],
         [sg.Button("Sort by Highest", key = "??SORT BY HIGHEST??"), sg.Button("Sort by Lowest", key = "??SORT BY LOWEST??"), sg.Combo(DM.sessions[session_name].shown_statistics, key = "??SORT STATISTIC NAME??")],
         [sg.Button("Update Data", key = "??UPDATE??")],
+        [sg.Button("Extract Stocks", key = "??EXTRACT??"), sg.Input(key = "??EXTRACT SESSION NAME??", default_text="new session name"), sg.Combo(DM.sessions[session_name].shown_statistics, key = "??EXTRACT STATISTIC NAME??"), sg.Input(default_text="value/name used for extraction", key="??EXTRACT VALUE??"), sg.Checkbox("Extract Higher Than", default=True, key="??EXTRACT HIGHER/LOWER??")],
+        [sg.Button("Purge By Statistic", key="??PURGE??"), sg.Combo(DM.sessions[session_name].shown_statistics, key="??PURGE STATISTIC NAME??"), sg.Input(default_text="value to purge higher/lower from", key="??PURGE VALUE??"), sg.Checkbox("Purge Higher Than", default=True, key="??PURGE HIGHER/LOWER??")],
         [sg.Button("Quit", key = "??QUIT??")]
         
     ]
@@ -251,6 +253,33 @@ class StockResearchWindow(Window):
                 for symbol in data:
                     DM.sessions[self.session_name].symbols[symbol] = temp_symbols[symbol]
 
+        if event == "??EXTRACT??":
+            if values["??EXTRACT STATISTIC NAME??"] == "Industry" or values["??EXTRACT STATISTIC NAME??"] == "Sector":
+                DM.sessions[values["??EXTRACT SESSION NAME??"]] = Session.Session(name=values["??EXTRACT SESSION NAME??"])
+                for symbol in DM.sessions[self.session_name].symbols:
+                    if DM.symbols[symbol].data[values["??EXTRACT STATISTIC NAME??"]] == values["??EXTRACT VALUE??"]:
+                        DM.sessions[values["??EXTRACT SESSION NAME??"]].symbols[symbol] = DM.symbols[symbol]
+            else:
+                DM.sessions[values["??EXTRACT SESSION NAME??"]] = Session.Session(name=values["??EXTRACT SESSION NAME??"])
+                for symbol in DM.sessions[self.session_name].symbols:
+                    if values["??EXTRACT HIGHER/LOWER??"]:
+                        if DM.symbols[symbol].data[values["??EXTRACT STATISTIC NAME??"]] > float(values["??EXTRACT VALUE??"]):
+                            DM.sessions[values["??EXTRACT SESSION NAME??"]].symbols[symbol] = DM.symbols[symbol]
+                    else:
+                        if DM.symbols[symbol].data[values["??EXTRACT STATISTIC NAME??"]] <= float(values["??EXTRACT VALUE??"]):
+                            DM.sessions[values["??EXTRACT SESSION NAME??"]].symbols[symbol] = DM.symbols[symbol]
+        
+        if event == "??PURGE??":
+            deletes = []
+            for symbol in DM.sessions[self.session_name].symbols:
+                if values["??PURGE HIGHER/LOWER??"]:
+                    if DM.symbols[symbol].data[values["??PURGE STATISTIC NAME??"]] > float(values["??PURGE VALUE??"]):
+                        deletes.append(DM.sessions[self.session_name].symbols[symbol].ticker_name)
+                else:
+                    if DM.symbols[symbol].data[values["??PURGE STATISTIC NAME??"]] <= float(values["??PURGE VALUE??"]):
+                        deletes.append(DM.sessions[self.session_name].symbols[symbol].ticker_name)
+            for delete in deletes:
+                del DM.sessions[self.session_name].symbols[delete]
 
             
 
