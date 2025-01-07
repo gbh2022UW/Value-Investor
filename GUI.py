@@ -162,7 +162,10 @@ class WelcomeWindow(Window):
 
         if event == "??DELETE SESSION??":
             del DM.sessions[values["??DELETE SESSION NAME??"]]
-            shutil.rmtree(os.path.join(DM.session_save_path, values["??DELETE SESSION NAME??"]))
+            try:
+                shutil.rmtree(os.path.join(DM.session_save_path, values["??DELETE SESSION NAME??"]))
+            except:
+                pass
 
     
     
